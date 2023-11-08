@@ -13,7 +13,7 @@ const CustomModal = ( {children} ) => {
     >
       <h2>Este es el modal</h2>
 
-      {/* Aca el hijo */}
+      
 
       {children}
       

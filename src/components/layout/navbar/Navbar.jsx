@@ -1,6 +1,7 @@
-import { BsFillCartPlusFill } from "react-icons/bs";
 import { Outlet, Link } from "react-router-dom";
+
 import "./Navbar.css";
+import CartWidget from "../../common/cartWidget/CartWidget";
 export const Navbar = () => {
   return (
     <>
@@ -13,16 +14,19 @@ export const Navbar = () => {
             <li className="li">Todo</li>
           </Link>
           <Link to="/category/Agua">
-            <li className="li">Bidonde20</li>
+            <li className="li">Más vendido</li>
           </Link>
           <Link to="/category/Productos">
-            <li className="li">Bidonde10</li>
+            <li className="li">Respaldo</li>
           </Link>
+          
         </ul>
         <Link to="/cart">
-          <BsFillCartPlusFill className="cart" />
+          <CartWidget className="CartWidget" />
         </Link>
+        
       </div>
+
       <Outlet />
     </>
   );

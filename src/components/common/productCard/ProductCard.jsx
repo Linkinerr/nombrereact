@@ -1,33 +1,44 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
-    <CardActionArea>
       <CardMedia
-        component="img"
-        height="140"
+        sx={{ height: 140 }}
         image={item.img}
-        alt="green iguana"
+        title={`image ${item.title}`}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-        {item.title}
+        <Typography gutterBottom variant="h4" component="div">
+          {item.title}
+        </Typography>
+        <Typography variant="h6" color="text.secondary">
+          {item.description}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-{item.description
-}        </Typography>
+          $ {item.price} .-
+        </Typography>
       </CardContent>
-    </CardActionArea>
-    <CardActions>
-   <Link to={`/itemDetail/${item.id}`}>
-      <Button size="small" variant="container">Ver detalles</Button>
-      </Link>
-
-    </CardActions>
-  </Card>
-
+      <CardActions>
+        {
+          item.stock > 0 ?
+          <Link to={`/itemDetail/${item.id}`}>
+          <Button size="small" variant="outlined">
+            Ver detalle
+          </Button>
+        </Link> : <Button variant="contained" disabled>Sin stock</Button>
+        }
+        
+      </CardActions>
+    </Card>
   );
 };
 

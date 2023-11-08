@@ -1,28 +1,71 @@
 import { useState, useEffect } from "react";
-import { products } from "../../../productsMock";
 
+
+import RingLoader from "react-spinners/RingLoader";
 import ItemList from "./ItemList";
 import { useParams } from "react-router-dom";
+import { db } from "../../../firebaseConfig";
+import { getDocs, collection, query, where, addDoc } from "firebase/firestore";
+import { products } from "../../../productsMock";
+
 
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
 
   const { categoryName } = useParams();
-  console.log(categoryName ? "estoy intentando filtrar" : "Estoy en el home");
+
+  const rellenarDB = ()=>{
+
+     const prodCollection = collection( db, "products" )
+
+     products.forEach( (elemento)=>{
+         addDoc(prodCollection, elemento)
+     } )
+
+   }
+
+  
+
 
   useEffect(() => {
-    const productosFiltrados = products.filter(
-      (product) => product.category === categoryName
-    );
+    let productsCollection = collection(db, "products");
 
-    const tarea = new Promise((resolve, reject) => {
-      resolve(categoryName ? productosFiltrados : products);
+    let consulta = undefined;
+
+    if (!categoryName) {
+      // SI NO EXISTE CATEGORYNAME ---> todos mis productos
+      consulta = productsCollection;
+    } else {
+      // SI EXISTE CATEGORYNAME ---> parte de mis productos
+      consulta = query(
+        productsCollection,
+        where("category", "==", categoryName)
+      );
+    }
+
+    getDocs(consulta).then((res) => {
+      let newArray = res.docs.map((product) => {
+        return { ...product.data(), id: product.id };
+      });
+
+      // let arrayFiltrado = newArray.filter((elemento)=> elemento.stock > 0)
+
+      setItems(newArray);
     });
-
-    tarea.then((res) => setItems(res)).catch((error) => console.log(error));
   }, [categoryName]);
 
-  return <ItemList items={items} />;
+
+  return (
+    <>
+
+      {items.length === 0 ? (
+        <RingLoader size={800} color="violet" heigh cssOverride={{}}   />
+      ) : (
+        <ItemList items={items} />
+      )}
+      
+    </>
+  );
 };
 
 export default ItemListContainer;
