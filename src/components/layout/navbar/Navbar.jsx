@@ -9,8 +9,9 @@ export const Navbar = () => {
         <Link to="/">
           <h4 className="li">Inicio</h4>
         </Link>
+        
         <ul className="ul">
-          <Link to="/">
+        <Link to="/">
             <li className="li">Todo</li>
           </Link>
           <Link to="/category/Agua">
@@ -24,10 +25,10 @@ export const Navbar = () => {
         <Link to="/cart">
           <CartWidget className="CartWidget" />
         </Link>
-        
+        <Outlet />
       </div>
 
-      <Outlet />
+     
     </>
   );
 };

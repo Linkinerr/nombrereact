@@ -59,7 +59,7 @@ const ItemListContainer = () => {
     <>
 
       {items.length === 0 ? (
-        <RingLoader size={800} color="violet" heigh cssOverride={{}}   />
+        <RingLoader size={800} color="violet"   />
       ) : (
         <ItemList items={items} />
       )}
